@@ -1,0 +1,9 @@
+{
+    "nativescript-background-http": true,
+    "tns-core-modules": true,
+    "tns-core-modules-widgets": true,
+    "nativescript-camera": true,
+    "nativescript-permissions": true,
+    "nativescript-plugin-firebase": true,
+    "nativescript-theme-core": true
+}

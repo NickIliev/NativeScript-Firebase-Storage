@@ -1,0 +1,1 @@
+export var APPSPOT_BUCKET_URL = "gs://fir-storage-b55dc.appspot.com";
