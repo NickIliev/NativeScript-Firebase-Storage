@@ -1,4 +1,4 @@
-import {Observable} from 'data/observable';
+import { Observable } from 'data/observable';
 import * as firebase from "nativescript-plugin-firebase";
 import * as fs from "file-system";
 import { APPSPOT_BUCKET_URL } from "./shared/link";
@@ -12,7 +12,7 @@ export class StorageModel extends Observable {
     }
 
     public set message(value: string) {
-        if(this.message != value) {
+        if (this.message != value) {
             this._message = value;
             this.notifyPropertyChange("message", value);
         }

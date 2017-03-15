@@ -1,5 +1,6 @@
 var appModule = require("application");
 var utils = require("utils/utils");
+var frame = require("ui/frame");
 var fs = require("file-system");
 var firebase = require("./firebase-common");
 
@@ -24,7 +25,8 @@ var GOOGLE_SIGNIN_INTENT_ID = 123;
     var extras = intent.getExtras();
     if (extras !== null) {
       var result = {
-        foreground: false
+        foreground: false,
+        data: {}
       };
 
       var iterator = extras.keySet().iterator();
@@ -32,6 +34,7 @@ var GOOGLE_SIGNIN_INTENT_ID = 123;
         var key = iterator.next();
         if (key !== "from" && key !== "collapse_key") {
           result[key] = extras.get(key);
+          result.data[key] = extras.get(key);
         }
       }
 
@@ -153,6 +156,8 @@ firebase.init = function (arg) {
         reject("You already ran init");
         return;
       }
+
+      arg = arg || {};
 
       firebase.ServerValue = {
         TIMESTAMP: firebase.toJsObject(com.google.firebase.database.ServerValue.TIMESTAMP)
@@ -339,7 +344,7 @@ firebase.analytics.logEvent = function (arg) {
 
       resolve();
     } catch (ex) {
-      console.log("Error in firebase.logEvent: " + ex);
+      console.log("Error in firebase.analytics.logEvent: " + ex);
       reject(ex);
     }
   });
@@ -361,10 +366,193 @@ firebase.analytics.setUserProperty = function (arg) {
 
       resolve();
     } catch (ex) {
-      console.log("Error in firebase.setUserProperty: " + ex);
+      console.log("Error in firebase.analytics.setUserProperty: " + ex);
       reject(ex);
     }
   });
+};
+
+//see https://firebase.google.com/docs/admob/android/quick-start
+firebase.admob.showBanner = function (arg) {
+  return new Promise(function (resolve, reject) {
+    try {
+      var settings = firebase.merge(arg, firebase.admob.defaults);
+
+      // this should also be possible in init
+      com.google.android.gms.ads.MobileAds.initialize(
+          appModule.android.context,
+          settings.androidBannerId); // TODO not sure its bound to packagename.. this is from the admob-demo
+
+      // always close a previously opened banner
+      if (firebase.admob.adView !== null && firebase.admob.adView !== undefined) {
+        var parent = firebase.admob.adView.getParent();
+        if (parent !== null) {
+          parent.removeView(firebase.admob.adView);
+        }
+      }
+
+      firebase.admob.adView = new com.google.android.gms.ads.AdView(appModule.android.foregroundActivity);
+      firebase.admob.adView.setAdUnitId(settings.androidBannerId);
+      var bannerType = firebase.admob._getBannerType(settings.size);
+      firebase.admob.adView.setAdSize(bannerType);
+      console.log("----- bannerType: " + bannerType);
+      // TODO consider implementing events
+      //firebase.admob.adView.setAdListener(new com.google.android.gms.ads.BannerListener());
+
+      var ad = firebase.admob._buildAdRequest(settings);
+      firebase.admob.adView.loadAd(ad);
+
+      var density = utils.layout.getDisplayDensity(),
+          top = settings.margins.top * density,
+          bottom = settings.margins.bottom * density;
+
+      var relativeLayoutParams = new android.widget.RelativeLayout.LayoutParams(
+          android.widget.RelativeLayout.LayoutParams.MATCH_PARENT,
+          android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+      if (bottom > -1) {
+        relativeLayoutParams.bottomMargin = bottom;
+        relativeLayoutParams.addRule(android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM);
+      } else {
+        if (top > -1) {
+          relativeLayoutParams.topMargin = top;
+        }
+        relativeLayoutParams.addRule(android.widget.RelativeLayout.ALIGN_PARENT_TOP);
+      }
+
+      var adViewLayout = new android.widget.RelativeLayout(appModule.android.foregroundActivity);
+      adViewLayout.addView(firebase.admob.adView, relativeLayoutParams);
+
+      var relativeLayoutParamsOuter = new android.widget.RelativeLayout.LayoutParams(
+          android.widget.RelativeLayout.LayoutParams.MATCH_PARENT,
+          android.widget.RelativeLayout.LayoutParams.MATCH_PARENT);
+
+      // wrapping it in a timeout makes sure that when this function is loaded from
+      // a Page.loaded event 'frame.topmost()' doesn't resolve to 'undefined'
+      setTimeout(function() {
+        frame.topmost().currentPage.android.getParent().addView(adViewLayout, relativeLayoutParamsOuter);
+      }, 0);
+
+      resolve();
+    } catch (ex) {
+      console.log("Error in firebase.admob.showBanner: " + ex);
+      reject(ex);
+    }
+  });
+};
+
+firebase.admob.showInterstitial = function (arg) {
+  return new Promise(function (resolve, reject) {
+    try {
+      var settings = firebase.merge(arg, firebase.admob.defaults);
+      firebase.admob.interstitialView = new com.google.android.gms.ads.InterstitialAd(appModule.android.foregroundActivity);
+      firebase.admob.interstitialView.setAdUnitId(settings.androidInterstitialId);
+
+      // Interstitial ads must be loaded before they can be shown, so adding a listener
+      var InterstitialAdListener = com.google.android.gms.ads.AdListener.extend({
+        onAdLoaded: function () {
+          firebase.admob.interstitialView.show();
+          resolve();
+        },
+        onAdFailedToLoad: function (errorCode) {
+          reject(errorCode);
+        },
+        onAdClosed: function() {
+          firebase.admob.interstitialView.setAdListener(null);
+          firebase.admob.interstitialView = null;
+        }
+      });
+      firebase.admob.interstitialView.setAdListener(new InterstitialAdListener());
+
+      var ad = firebase.admob._buildAdRequest(settings);
+      firebase.admob.interstitialView.loadAd(ad);
+    } catch (ex) {
+      console.log("Error in firebase.admob.showInterstitial: " + ex);
+      reject(ex);
+    }
+  });
+};
+
+firebase.admob.hideBanner = function (arg) {
+  return new Promise(function (resolve, reject) {
+    try {
+      if (firebase.admob.adView !== null) {
+        var parent = firebase.admob.adView.getParent();
+        if (parent !== null) {
+          parent.removeView(firebase.admob.adView);
+        }
+        firebase.admob.adView = null;
+      }
+      resolve();
+    } catch (ex) {
+      console.log("Error in firebase.admob.hideBanner: " + ex);
+      reject(ex);
+    }
+  });
+};
+
+firebase.admob._getBannerType = function (size) {
+  if (size == firebase.admob.AD_SIZE.BANNER) {
+    return com.google.android.gms.ads.AdSize.BANNER;
+  } else if (size == firebase.admob.AD_SIZE.LARGE_BANNER) {
+    return com.google.android.gms.ads.AdSize.LARGE_BANNER;
+  } else if (size == firebase.admob.AD_SIZE.MEDIUM_RECTANGLE) {
+    return com.google.android.gms.ads.AdSize.MEDIUM_RECTANGLE;
+  } else if (size == firebase.admob.AD_SIZE.FULL_BANNER) {
+    return com.google.android.gms.ads.AdSize.FULL_BANNER;
+  } else if (size == firebase.admob.AD_SIZE.LEADERBOARD) {
+    return com.google.android.gms.ads.AdSize.LEADERBOARD;
+  } else if (size == firebase.admob.AD_SIZE.SMART_BANNER) {
+    return com.google.android.gms.ads.AdSize.SMART_BANNER;
+  } else {
+    return null;
+  }
+};
+
+firebase.admob._buildAdRequest = function (settings) {
+  var builder = new com.google.android.gms.ads.AdRequest.Builder();
+  if (settings.testing) {
+    builder.addTestDevice(com.google.android.gms.ads.AdRequest.DEVICE_ID_EMULATOR);
+    // This will request test ads on the emulator and device by passing this hashed device ID.
+    var ANDROID_ID = android.provider.Settings.Secure.getString(appModule.android.foregroundActivity.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+    var deviceId = firebase.admob._md5(ANDROID_ID);
+    if (deviceId !== null) {
+      deviceId = deviceId.toUpperCase();
+      console.log("Treating this deviceId as testdevice: " + deviceId);
+      builder.addTestDevice(deviceId);
+    }
+  }
+  var bundle = new android.os.Bundle();
+  bundle.putInt("nativescript", 1);
+  var adextras = new com.google.android.gms.ads.mediation.admob.AdMobExtras(bundle);
+  //builder = builder.addNetworkExtras(adextras);
+  return builder.build();
+};
+
+firebase.admob._md5 = function(input) {
+  try {
+    var digest = java.security.MessageDigest.getInstance("MD5");
+    var bytes = [];
+    for (var j = 0; j < input.length; ++j) {
+      bytes.push(input.charCodeAt(j));
+    }
+
+    var s = new java.lang.String(input);
+    digest.update(s.getBytes());
+    var messageDigest = digest.digest();
+    var hexString = "";
+    for (var i = 0; i < messageDigest.length; i++) {
+      var h = java.lang.Integer.toHexString(0xFF & messageDigest[i]);
+      while (h.length < 2)
+        h = "0" + h;
+      hexString += h;
+    }
+    return hexString;
+
+  } catch (noSuchAlgorithmException) {
+    console.log("error generating md5: " + noSuchAlgorithmException);
+    return null;
+  }
 };
 
 firebase.getRemoteConfig = function (arg) {
@@ -612,6 +800,10 @@ firebase.login = function (arg) {
           }
           if (!task.isSuccessful()) {
             console.log("Logging in the user failed. " + (task.getException() && task.getException().getReason ? task.getException().getReason() : task.getException()));
+            // also disconnect from Google otherwise ppl can't connect with a different account
+            if (firebase._mGoogleApiClient) {
+                com.google.android.gms.auth.api.Auth.GoogleSignInApi.revokeAccess(firebase._mGoogleApiClient);
+            }
             reject("Logging in the user failed. " + (task.getException() && task.getException().getReason ? task.getException().getReason() : task.getException()));
           } else {
             var user = task.getResult().getUser();
@@ -1111,7 +1303,15 @@ firebase.setValue = function (path, val) {
 firebase.update = function (path, val) {
   return new Promise(function (resolve, reject) {
     try {
+      if (typeof val == "object") {
       firebase.instance.child(path).updateChildren(firebase.toHashMap(val));
+      } else {
+        var lastPartOfPath = path.lastIndexOf("/");
+        var pathPrefix = path.substring(0, lastPartOfPath);
+        var pathSuffix = path.substring(lastPartOfPath + 1);
+        var updateObject = '{"' + pathSuffix + '" : "' + val + '"}';
+        firebase.instance.child(pathPrefix).updateChildren(firebase.toHashMap(JSON.parse(updateObject)));
+      }
       resolve();
     } catch (ex) {
       console.log("Error in firebase.update: " + ex);
@@ -1483,7 +1683,52 @@ firebase.deleteFile = function (arg) {
   });
 };
 
-/*
+firebase.subscribeToTopic = function(topicName){
+  return new Promise(function (resolve, reject) {
+    try {
+
+      if (typeof(com.google.firebase.messaging) === "undefined") {
+        reject("Uncomment firebase-messaging in the plugin's include.gradle first");
+        return;
+      }
+
+      if (firebase.instance === null) {
+        reject("Can be run only after init");
+        return;
+      }
+
+      com.google.firebase.messaging.FirebaseMessaging.getInstance().subscribeToTopic(topicName);
+      resolve();
+    } catch(ex){
+      console.log("Error in firebase.subscribeToTopic: " + ex);
+      reject(ex);
+    }
+  });
+};
+
+firebase.unsubscribeFromTopic = function(topicName){
+  return new Promise(function (resolve, reject) {
+    try {
+      
+      if (typeof(com.google.firebase.messaging) === "undefined") {
+        reject("Uncomment firebase-messaging in the plugin's include.gradle first");
+        return;
+      }
+
+      if (firebase.instance === null) {
+        reject("Can be run only after init");
+        return;
+      }
+      
+      com.google.firebase.messaging.FirebaseMessaging.getInstance().unsubscribeFromTopic(topicName);
+      resolve();
+    } catch(ex){
+      console.log("Error in firebase.unsubscribeFromTopic: " + ex);
+      reject(ex);
+    }
+  }); 
+};
+
 firebase.sendCrashLog = function (arg) {
   return new Promise(function (resolve, reject) {
     try {
@@ -1493,12 +1738,12 @@ firebase.sendCrashLog = function (arg) {
         return;
       }
 
-      if (!arg.log) {
-        reject("The mandatory 'log' argument is missing");
+      if (!arg.message) {
+        reject("The mandatory 'message' argument is missing");
         return;
       }
 
-      com.google.firebase.crash.FirebaseCrash.log(arg.log);
+      com.google.firebase.crash.FirebaseCrash.log(arg.message);
       resolve();
     } catch (ex) {
       console.log("Error in firebase.sendCrashLog: " + ex);
@@ -1506,6 +1751,5 @@ firebase.sendCrashLog = function (arg) {
     }
   });
 };
-*/
 
 module.exports = firebase;

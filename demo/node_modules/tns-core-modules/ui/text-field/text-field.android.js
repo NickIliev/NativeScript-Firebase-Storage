@@ -4,6 +4,7 @@ function onSecurePropertyChanged(data) {
     if (!textField.android) {
         return;
     }
+    var cursorPosition = textField.android.getSelectionStart();
     var currentInputType = textField.android.getInputType();
     var currentClass = currentInputType & android.text.InputType.TYPE_MASK_CLASS;
     var currentFlags = currentInputType & android.text.InputType.TYPE_MASK_FLAGS;
@@ -26,6 +27,7 @@ function onSecurePropertyChanged(data) {
         }
     }
     textField.android.setInputType(newInputType);
+    textField.android.setSelection(cursorPosition);
 }
 common.secureProperty.metadata.onSetNativeValue = onSecurePropertyChanged;
 global.moduleMerge(common, exports);

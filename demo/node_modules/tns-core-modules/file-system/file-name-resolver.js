@@ -54,7 +54,7 @@ var minHeightQualifier = {
         return PRIORITY_STEP - (actualHeight - numVal);
     }
 };
-var paltformQualifier = {
+var platformQualifier = {
     isMatch: function (value) {
         return value === "android" ||
             value === "ios";
@@ -78,7 +78,7 @@ var supportedQualifiers = [
     minWidthQualifier,
     minHeightQualifier,
     orientationQualifier,
-    paltformQualifier
+    platformQualifier
 ];
 var FileNameResolver = (function () {
     function FileNameResolver(context) {
@@ -102,10 +102,7 @@ var FileNameResolver = (function () {
         path = fs.path.normalize(path);
         ext = "." + ext;
         var candidates = this.getFileCandidatesFromFolder(path, ext);
-        result = findFileMatch(path, ext, candidates, this._context);
-        if (trace.enabled) {
-            trace.write("Resolved file name for \"" + path + ext + "\" result: " + (result ? result : "no match found"), trace.categories.Navigation);
-        }
+        result = _findFileMatch(path, ext, candidates, this._context);
         return result;
     };
     FileNameResolver.prototype.getFileCandidatesFromFolder = function (path, ext) {
@@ -133,12 +130,9 @@ var FileNameResolver = (function () {
     return FileNameResolver;
 }());
 exports.FileNameResolver = FileNameResolver;
-function findFileMatch(path, ext, candidates, context) {
+function _findFileMatch(path, ext, candidates, context) {
     var bestValue = -1;
     var result = null;
-    if (trace.enabled) {
-        trace.write("Candidates for " + path + ext + ": " + candidates.join(", "), trace.categories.Navigation);
-    }
     for (var i = 0; i < candidates.length; i++) {
         var filePath = candidates[i];
         var qualifiersStr = filePath.substr(path.length, filePath.length - path.length - ext.length);
@@ -151,7 +145,7 @@ function findFileMatch(path, ext, candidates, context) {
     }
     return result;
 }
-exports.findFileMatch = findFileMatch;
+exports._findFileMatch = _findFileMatch;
 function checkQualifiers(qualifiers, context) {
     var result = 0;
     for (var i = 0; i < qualifiers.length; i++) {
@@ -177,16 +171,8 @@ function checkQualifier(value, context) {
     }
     return -1;
 }
-var appEventAttached = false;
 var resolverInstance;
 function resolveFileName(path, ext) {
-    if (!appEventAttached) {
-        var app = require("application");
-        app.on(app.orientationChangedEvent, function (data) {
-            resolverInstance = undefined;
-        });
-        appEventAttached = true;
-    }
     if (!resolverInstance) {
         resolverInstance = new FileNameResolver({
             width: platform.screen.mainScreen.widthDIPs,
@@ -204,4 +190,8 @@ function clearCache() {
     }
 }
 exports.clearCache = clearCache;
+function _invalidateResolverInstance() {
+    resolverInstance = undefined;
+}
+exports._invalidateResolverInstance = _invalidateResolverInstance;
 //# sourceMappingURL=file-name-resolver.js.map

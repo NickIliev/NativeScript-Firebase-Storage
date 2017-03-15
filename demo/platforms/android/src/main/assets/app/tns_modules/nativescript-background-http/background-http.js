@@ -2,6 +2,7 @@
 var application = require("application");
 var data_observable = require("data/observable");
 var utils = require("utils/utils");
+var fileSystemModule = require("file-system");
 var ProgressReceiver = net.gotev.uploadservice.UploadServiceBroadcastReceiver.extend({
     onProgress: function (uploadInfo) {
         var uploadId = uploadInfo.getUploadId();
@@ -64,6 +65,9 @@ var Session = (function () {
     Session.prototype.uploadFile = function (file, options) {
         return Task.create(this, file, options);
     };
+    Session.prototype.multipartUpload = function (params, options) {
+        return Task.createMultiPart(this, params, options);
+    };
     Object.defineProperty(Session.prototype, "id", {
         get: function () {
             return this._id;
@@ -85,6 +89,48 @@ var Task = (function (_super) {
         var context = application.android.context;
         var request = new net.gotev.uploadservice.BinaryUploadRequest(context, task._id, options.url);
         request.setFileToUpload(file);
+        request.setNotificationConfig(new net.gotev.uploadservice.UploadNotificationConfig());
+        var headers = options.headers;
+        if (headers) {
+            for (var header in headers) {
+                var value = headers[header];
+                if (value !== null && value !== void 0) {
+                    request.addHeader(header, value.toString());
+                }
+            }
+        }
+        task.setDescription(options.description);
+        request.setMethod(options.method ? options.method : "GET");
+        task.setUpload(0);
+        task.setTotalUpload(1);
+        task.setStatus("pending");
+        request.startUpload();
+        Task.cache[task._id] = task;
+        return task;
+    };
+    Task.createMultiPart = function (session, params, options) {
+        var task = new Task();
+        task._session = session;
+        task._id = session.id + "{" + (++Task.taskCount) + "}";
+        var context = application.android.context;
+        var request = new net.gotev.uploadservice.MultipartUploadRequest(context, task._id, options.url);
+        for (var i = 0; i < params.length; i++) {
+            var curParam = params[i];
+            if (typeof curParam.name === 'undefined') {
+                throw new Error("You must have a `name` value");
+            }
+            if (curParam.filename) {
+                var fileName = curParam.filename;
+                if (fileName.startsWith("~/")) {
+                    fileName = fileName.replace("~/", fileSystemModule.knownFolders.currentApp().path + "/");
+                }
+                var destFileName = curParam.destFilename || fileName.substring(fileName.lastIndexOf('/') + 1, fileName.length);
+                request.addFileToUpload(fileName, curParam.name, destFileName, curParam.mimeType);
+            }
+            else {
+                request.addParameter(params[i].name, params[i].value);
+            }
+        }
         request.setNotificationConfig(new net.gotev.uploadservice.UploadNotificationConfig());
         var headers = options.headers;
         if (headers) {

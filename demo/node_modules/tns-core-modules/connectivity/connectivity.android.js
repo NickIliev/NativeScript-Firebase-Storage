@@ -2,8 +2,8 @@ var appModule = require("application");
 var common = require("./connectivity-common");
 var utils = require("utils/utils");
 global.moduleMerge(common, exports);
-var WIFI = "WIFI";
-var MOBILE = "MOBILE";
+var wifi = "wifi";
+var mobile = "mobile";
 function getConnectivityManager() {
     return utils.ad.getApplicationContext().getSystemService(android.content.Context.CONNECTIVITY_SERVICE);
 }
@@ -19,13 +19,14 @@ function getConnectionType() {
     if (!activeNetworkInfo || !activeNetworkInfo.isConnected()) {
         return common.connectionType.none;
     }
-    var connectionType = activeNetworkInfo.getTypeName();
-    switch (connectionType) {
-        case WIFI:
-            return common.connectionType.wifi;
-        case MOBILE:
-            return common.connectionType.mobile;
+    var connectionType = activeNetworkInfo.getTypeName().toLowerCase();
+    if (connectionType.indexOf(wifi) !== -1) {
+        return common.connectionType.wifi;
     }
+    if (connectionType.indexOf(mobile) !== -1) {
+        return common.connectionType.mobile;
+    }
+    return common.connectionType.none;
 }
 exports.getConnectionType = getConnectionType;
 function startMonitoring(connectionTypeChangedCallback) {

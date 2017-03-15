@@ -180,4 +180,9 @@ var AnimationCurve;
     }
     AnimationCurve.cubicBezier = cubicBezier;
 })(AnimationCurve = exports.AnimationCurve || (exports.AnimationCurve = {}));
+var StatusBarStyle;
+(function (StatusBarStyle) {
+    StatusBarStyle.light = "light";
+    StatusBarStyle.dark = "dark";
+})(StatusBarStyle = exports.StatusBarStyle || (exports.StatusBarStyle = {}));
 //# sourceMappingURL=enums.js.map

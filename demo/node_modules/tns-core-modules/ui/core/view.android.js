@@ -13,7 +13,7 @@ var NATIVE_VIEW = "_nativeView";
 var VIEW_GROUP = "_viewGroup";
 function onAutomationTextPropertyChanged(data) {
     var view = data.object;
-    view._nativeView.setContentDescription(data.newValue);
+    view._nativeView.setContentDescription(data.newValue + "");
 }
 viewCommon.View.automationTextProperty.metadata.onSetNativeValue = onAutomationTextPropertyChanged;
 function onIdPropertyChanged(data) {

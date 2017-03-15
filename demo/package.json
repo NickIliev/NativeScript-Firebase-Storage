@@ -6,24 +6,24 @@
   "nativescript": {
     "id": "org.nativescript.demo",
     "tns-android": {
-      "version": "2.4.1"
+      "version": "2.5.0"
     }
   },
   "dependencies": {
-    "nativescript-background-http": "^2.4.1",
+    "nativescript-background-http": "^2.5.1",
     "nativescript-camera": "0.0.8",
-    "nativescript-permissions": "^1.2.2",
-    "nativescript-plugin-firebase": "^3.9.0",
-    "nativescript-theme-core": "^0.2.1",
-    "tns-core-modules": "2.4.4"
+    "nativescript-permissions": "^1.2.3",
+    "nativescript-plugin-firebase": "^3.10.2",
+    "nativescript-theme-core": "^1.0.3",
+    "tns-core-modules": "2.5.1"
   },
   "devDependencies": {
     "babel-traverse": "6.21.0",
     "babel-types": "6.21.0",
     "babylon": "6.14.1",
     "lazy": "1.0.11",
-    "nativescript-dev-android-snapshot": "^0.*.*",
-    "nativescript-dev-typescript": "^0.3.2",
+    "nativescript-dev-typescript": "^0.3.7",
+    "tns-platform-declarations": "^2.5.0",
     "typescript": "^2.1.4"
   }
 }

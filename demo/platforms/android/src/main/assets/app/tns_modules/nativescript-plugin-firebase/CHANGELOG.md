@@ -1,5 +1,139 @@
 <img src="docs/images/firebase-logo.png" width="116px" height="32px" alt="Firebase"/>
 
+
+## 3.10.2 (2017, March 12)
+
+[Full changelog](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/compare/3.10.1...3.10.2)
+
+### SDK versions
+
+If version numbers __changed__, clean your platform folders to avoid build errors.
+Also, for Android update your Google Repository in the Android SDK manager (type `android` on the command prompt),
+and for iOS do a `pod repo update` to fetch the latest versions from Cocoapods.
+
+- iOS: 3.13.x
+- Android: 10.2.x
+
+### New
+- [#307](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/307) Feature Request: Support crash log API
+
+### Fixes
+- [#272](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/272) Unusual error message when retrieving data set and binding to layout
+- [#292](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/292) Nativescript app is not running with Firebase in IOS. 
+
+
+
+
+## 3.10.1 (2017, February 22)
+
+[Full changelog](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/compare/3.10.0...3.10.1)
+
+### SDK versions
+
+If version numbers __changed__, clean your platform folders to avoid build errors.
+Also, for Android update your Google Repository in the Android SDK manager (type `android` on the command prompt),
+and for iOS do a `pod repo update` to fetch the latest versions from Cocoapods.
+
+- iOS: 3.13.x
+- Android: 10.2.x
+
+### Fixes
+- [#290](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/290) Don't load AdMob symbols if AdMob was not enabled in the config 
+- [#293](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/293) Fix postinstall when nativescript is not in the PATH
+- [#294](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/294) iOS crashes when AdMob is not enabled
+
+
+
+
+## 3.10.0 (2017, February 17)
+
+[Full changelog](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/compare/3.9.3...3.10.0)
+
+### SDK versions
+
+If version numbers __changed__, clean your platform folders to avoid build errors.
+Also, for Android update your Google Repository in the Android SDK manager (type `android` on the command prompt),
+and for iOS do a `pod repo update` to fetch the latest versions from Cocoapods.
+
+- __iOS: 3.13.x__
+- __Android: 10.2.x__
+
+### New
+- postinstall script enabled again, unless you're using NativeScript 2.5.0
+- [#19](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/19) Conflict with nativescript-admob  …
+- [#55](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/55) Support for AdMob
+- [#85](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/85) Google Service conflits on using nativescript-admob with this plugin
+- [#284](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/284) nativescript-plugin-firebase and nativescript admob conflict
+- [#286](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/286) send push notifications from app + small callback fix for push
+
+### Fixes
+- [#146](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/146) Sending Data Messages without notification key.
+- [#281](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/281) Fix app crash when notification structure is missing
+- [#285](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/285) Plugins not uncommented in include.gradle
+
+
+
+
+## 3.9.3 (2017, February 8)
+
+[Full changelog](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/compare/3.9.2...3.9.3)
+
+### SDK versions
+
+If version numbers __changed__, clean your platform folders to avoid build errors.
+Also, for Android update your Google Repository in the Android SDK manager (type `android` on the command prompt),
+and for iOS do a `pod repo update` to fetch the latest versions from Cocoapods.
+
+- iOS: 3.11.x
+- Android: 10.0.x
+
+### Fixes
+- [#275](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/275) tns plugin add nativescript-plugin-firebase seems to hang forever
+
+
+
+
+## 3.9.2 (2017, January 20)
+
+[Full changelog](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/compare/3.9.1...3.9.2)
+
+### SDK versions
+
+If version numbers __changed__, clean your platform folders to avoid build errors.
+Also, for Android update your Google Repository in the Android SDK manager (type `android` on the command prompt),
+and for iOS do a `pod repo update` to fetch the latest versions from Cocoapods.
+
+- iOS: 3.11.x
+- Android: 10.0.x
+
+### Fixes
+- [#237](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/237) Notification message not shown when app is in the background  
+- [#243](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/243) iOS: Push Notifications not working in Background or when application is reopened 
+- [#258](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/258) iOS Notification not received in background mode 
+- [#264](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/264) iOS: Push Notifications not working in Background in Production 
+
+
+
+
+## 3.9.1 (2017, January 18)
+
+[Full changelog](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/compare/3.9.0...3.9.1)
+
+### SDK versions
+
+If version numbers __changed__, clean your platform folders to avoid build errors.
+Also, for Android update your Google Repository in the Android SDK manager (type `android` on the command prompt),
+and for iOS do a `pod repo update` to fetch the latest versions from Cocoapods.
+
+- iOS: 3.11.x
+- Android: 10.0.x
+
+### New
+- [#262](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/262) Adding ability to (un/)subscribe to topics at firebase 
+
+
+
+
 ## 3.9.0 (2017, January 3)
 
 [Full changelog](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/compare/3.8.5...3.9.0)
@@ -23,7 +157,6 @@ and for iOS do a `pod repo update` to fetch the latest versions from Cocoapods.
 - [#236](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/236) iOS Image Upload Type in Firebase
 - [#239](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/239) fAuth.signInWithCustomToken is not a function
 - [#250](https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/250) Gradle build error when nativescript-google-maps-sdk is added
-
 
 
 

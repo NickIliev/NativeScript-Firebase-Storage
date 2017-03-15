@@ -149,10 +149,10 @@ var ListView = (function (_super) {
     });
     Object.defineProperty(ListView.prototype, "separatorColor", {
         get: function () {
-            return this._getValue(ListView.separatorColorProperty);
+            return this.style._getValue(ListView.separatorColorProperty);
         },
         set: function (value) {
-            this._setValue(ListView.separatorColorProperty, value instanceof color.Color ? value : new color.Color(value));
+            this.style._setValue(ListView.separatorColorProperty, value instanceof color.Color ? value : new color.Color(value));
         },
         enumerable: true,
         configurable: true

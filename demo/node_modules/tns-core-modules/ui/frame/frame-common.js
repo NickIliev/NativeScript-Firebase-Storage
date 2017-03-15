@@ -213,7 +213,7 @@ var Frame = (function (_super) {
         var backstackHidden = types_1.isDefined(backstackVisibleValue) && !backstackVisibleValue;
         return !backstackHidden;
     };
-    Frame.prototype._updateActionBar = function (page) {
+    Frame.prototype._updateActionBar = function (page, disableNavBarAnimation) {
     };
     Frame.prototype._processNavigationContext = function (navigationContext) {
         if (navigationContext.isBackNavigation) {

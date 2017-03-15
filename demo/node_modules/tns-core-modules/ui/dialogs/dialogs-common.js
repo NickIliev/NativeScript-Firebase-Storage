@@ -37,6 +37,17 @@ function getButtonColor() {
     return buttonColor;
 }
 exports.getButtonColor = getButtonColor;
+var buttonBackgroundColor;
+function getButtonBackgroundColor() {
+    if (!buttonBackgroundColor) {
+        var btn = new button.Button();
+        applySelectors(btn);
+        buttonBackgroundColor = btn.backgroundColor;
+        btn.onUnloaded();
+    }
+    return buttonBackgroundColor;
+}
+exports.getButtonBackgroundColor = getButtonBackgroundColor;
 var textFieldColor;
 function getTextFieldColor() {
     if (!textFieldColor) {

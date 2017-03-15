@@ -1,13 +1,60 @@
 {
-  "name": "nativescript-camera",
-  "version": "0.0.8",
+  "_args": [
+    [
+      {
+        "raw": "nativescript-camera@0.0.8",
+        "scope": null,
+        "escapedName": "nativescript-camera",
+        "name": "nativescript-camera",
+        "rawSpec": "0.0.8",
+        "spec": "0.0.8",
+        "type": "version"
+      },
+      "D:\\git-NickIliev\\NativeScript-Firebase-Storage\\demo"
+    ]
+  ],
+  "_from": "nativescript-camera@0.0.8",
+  "_id": "nativescript-camera@0.0.8",
+  "_inCache": true,
+  "_location": "/nativescript-camera",
+  "_nodeVersion": "6.7.0",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/nativescript-camera-0.0.8.tgz_1479302619664_0.639167858986184"
+  },
+  "_npmUser": {
+    "name": "tns-bot",
+    "email": "nativescript@telerik.com"
+  },
+  "_npmVersion": "3.10.3",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "nativescript-camera@0.0.8",
+    "scope": null,
+    "escapedName": "nativescript-camera",
+    "name": "nativescript-camera",
+    "rawSpec": "0.0.8",
+    "spec": "0.0.8",
+    "type": "version"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/nativescript-camera/-/nativescript-camera-0.0.8.tgz",
+  "_shasum": "90b383ddb6431a193e520d3ce37409499c181bee",
+  "_shrinkwrap": null,
+  "_spec": "nativescript-camera@0.0.8",
+  "_where": "D:\\git-NickIliev\\NativeScript-Firebase-Storage\\demo",
+  "author": {
+    "name": "NativeScript team"
+  },
+  "dependencies": {},
   "description": "Provides API for using device camera",
-  "main": "nativescript-camera",
-  "nativescript": {
-    "platforms": {
-      "android": "2.3.0",
-      "ios": "2.3.0"
-    }
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "90b383ddb6431a193e520d3ce37409499c181bee",
+    "tarball": "https://registry.npmjs.org/nativescript-camera/-/nativescript-camera-0.0.8.tgz"
   },
   "keywords": [
     "NativeScript",
@@ -15,24 +62,7 @@
     "gallery",
     "images"
   ],
-  "author": {
-    "name": "NativeScript team"
-  },
-  "_id": "nativescript-camera@0.0.8",
-  "_shasum": "90b383ddb6431a193e520d3ce37409499c181bee",
-  "_resolved": "https://registry.npmjs.org/nativescript-camera/-/nativescript-camera-0.0.8.tgz",
-  "_from": "nativescript-camera@latest",
-  "scripts": {},
-  "_npmVersion": "3.10.3",
-  "_nodeVersion": "6.7.0",
-  "_npmUser": {
-    "name": "tns-bot",
-    "email": "nativescript@telerik.com"
-  },
-  "dist": {
-    "shasum": "90b383ddb6431a193e520d3ce37409499c181bee",
-    "tarball": "https://registry.npmjs.org/nativescript-camera/-/nativescript-camera-0.0.8.tgz"
-  },
+  "main": "nativescript-camera",
   "maintainers": [
     {
       "name": "enchev",
@@ -67,10 +97,15 @@
       "email": "alexander.vakrilov@gmail.com"
     }
   ],
-  "_npmOperationalInternal": {
-    "host": "packages-12-west.internal.npmjs.com",
-    "tmp": "tmp/nativescript-camera-0.0.8.tgz_1479302619664_0.639167858986184"
+  "name": "nativescript-camera",
+  "nativescript": {
+    "platforms": {
+      "android": "2.3.0",
+      "ios": "2.3.0"
+    }
   },
-  "directories": {},
-  "readme": "ERROR: No README data found!"
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "scripts": {},
+  "version": "0.0.8"
 }

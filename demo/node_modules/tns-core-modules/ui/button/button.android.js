@@ -2,6 +2,8 @@ var common = require("./button-common");
 var style = require("ui/styling/style");
 var text_base_styler_1 = require("ui/text-base/text-base-styler");
 var platform_1 = require("platform");
+var gestures_1 = require("ui/gestures");
+var view_1 = require("ui/core/view");
 var styleHandlersInitialized;
 global.moduleMerge(common, exports);
 var Button = (function (_super) {
@@ -34,20 +36,6 @@ var Button = (function (_super) {
                 }
             }
         }));
-        this._android.setOnTouchListener(new android.view.View.OnTouchListener({
-            get owner() {
-                return that.get();
-            },
-            onTouch: function (v, ev) {
-                if (ev.getAction() === 0) {
-                    this.owner._goToVisualState("highlighted");
-                }
-                else if (ev.getAction() === 1) {
-                    this.owner._goToVisualState("normal");
-                }
-                return false;
-            }
-        }));
     };
     Button.prototype._onTextPropertyChanged = function (data) {
         if (this.android) {
@@ -71,6 +59,28 @@ var Button = (function (_super) {
             this.android.setText(newText);
         }
     };
+    Button.prototype._updateHandler = function (subscribe) {
+        var _this = this;
+        if (subscribe) {
+            this._highlightedHandler = this._highlightedHandler || (function (args) {
+                switch (args.action) {
+                    case gestures_1.TouchAction.up:
+                        _this._goToVisualState("normal");
+                        break;
+                    case gestures_1.TouchAction.down:
+                        _this._goToVisualState("highlighted");
+                        break;
+                }
+            });
+            this.on(gestures_1.GestureTypes.touch, this._highlightedHandler);
+        }
+        else {
+            this.off(gestures_1.GestureTypes.touch, this._highlightedHandler);
+        }
+    };
+    __decorate([
+        view_1.PseudoClassHandler("normal", "highlighted", "pressed", "active")
+    ], Button.prototype, "_updateHandler", null);
     return Button;
 }(common.Button));
 exports.Button = Button;

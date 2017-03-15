@@ -16,7 +16,6 @@ console.log('NativeScript Firebase Plugin Installation');
 var appRoot = "../../";
 var pluginConfigFile = "firebase.nativescript.json";
 var pluginConfigPath = path.join(appRoot, pluginConfigFile);
-
 var config = {};
 function mergeConfig(result) {
     for (var key in result) {
@@ -36,12 +35,33 @@ function readConfig() {
     }
 }
 
-if (process.argv.indexOf("config") == -1 && fs.existsSync(pluginConfigPath)) {
+// workaround for https://github.com/NativeScript/nativescript-cli/issues/2521 (2.5.0 only)
+var nativeScriptVersion = "";
+try {
+  nativeScriptVersion = __webpack_require__(/*! child_process */ 2).execSync('nativescript --version');
+} catch (err) {
+  // On some environments nativescript is not in the PATH
+  // Ignore the error
+}
+
+var isNativeScriptCLI250 = nativeScriptVersion.indexOf("2.5.0") !== -1;
+
+// note that for CI builds you want a pluginConfigFile, otherwise the build will fail
+if (process.argv.indexOf("config") === -1 && fs.existsSync(pluginConfigPath)) {
     readConfig();
     console.log("Config file exists (" + pluginConfigFile + ")");
     askiOSPromptResult(config);
     askAndroidPromptResult(config);
     promptQuestionsResult(config);
+} else if (isNativeScriptCLI250 && process.argv.indexOf("setup") === -1) {
+    console.log("*******************************************************************");
+    console.log("*******************************************************************");
+    console.log("************************** IMPORTANT: *****************************");
+    console.log("*******************  with nativescript 2.5.0  *********************");
+    console.log("************** now execute 'npm run setup' manually ***************");
+    console.log("***** in the node_modules/nativescript-plugin-firebase folder *****");
+    console.log("*******************************************************************");
+    console.log("*******************************************************************");
 } else {
     console.log("No existing " + pluginConfigFile + " config file found, so let's configure the Firebase plugin!");
     prompt.start();
@@ -126,6 +146,10 @@ function promptQuestions() {
         name: 'google_auth',
         description: 'Are you using Firebase Google Authentication (y/n)',
         default: 'n'
+    }, {
+      name: 'admob',
+      description: 'Are you using AdMob (y/n)',
+      default: 'n'
     }], function (err, result) {
         if (err) {
             return console.log(err);
@@ -136,16 +160,24 @@ function promptQuestions() {
     });
 }
 function promptQuestionsResult(result) {
-    if(usingiOS) {
+    if (usingiOS) {
         writePodFile(result);
-        writeIOSEntitlementsCopyHook();
+        exposeAdMobSymbols(isSelected(result.admob));
     }
-    if(usingAndroid) {
+    if (usingAndroid) {
         writeGradleFile(result);
         writeGoogleServiceCopyHook();
         writeGoogleServiceGradleHook();
     }
     console.log('Firebase post install completed. To re-run this script, navigate to the root directory of `nativescript-plugin-firebase` in your `node_modules` folder and run: `npm run config`.');
+}
+
+function exposeAdMobSymbols(enable) {
+    if (enable && fs.existsSync(directories.ios + '/build.xcconfig.admob')) {
+        fs.renameSync(directories.ios + '/build.xcconfig.admob', directories.ios + '/build.xcconfig');
+    } else if (!enable && fs.existsSync(directories.ios + '/build.xcconfig')) {
+        fs.renameSync(directories.ios + '/build.xcconfig', directories.ios + '/build.xcconfig.admob');
+    }
 }
 
 function askSaveConfigPrompt() {
@@ -163,27 +195,6 @@ function askSaveConfigPrompt() {
     });
 }
 
-function writeIOSEntitlementsCopyHook() {
-    console.log("Install ios-entitlements installation hook.");
-    try {
-        var scriptContent = fs.readFileSync(path.join(appRoot, 'node_modules', 'nativescript-plugin-firebase', 'scripts', 'install_ios_entitlements_packed.js'));
-        var scriptPath = path.join(appRoot, "hooks", "after-prepare", "firebase-install-ios-entitlements.js");
-        var afterPrepareDirPath = path.dirname(scriptPath);
-        var hooksDirPath = path.dirname(afterPrepareDirPath);
-        if (!fs.existsSync(afterPrepareDirPath)) {
-            if (!fs.existsSync(hooksDirPath)) {
-                fs.mkdirSync(hooksDirPath);
-            }
-            fs.mkdirSync(afterPrepareDirPath);
-        }
-        fs.writeFileSync(scriptPath, scriptContent);
-
-    } catch(e) {
-        console.log("Failed to install ios-entitlements installation hook.");
-        console.log(e);
-    }
-}
-
 /**
  * Create the iOS PodFile for installing the Firebase iOS dependencies and service dependencies
  *
@@ -195,7 +206,7 @@ function writePodFile(result) {
     }
     try {
         fs.writeFileSync(directories.ios + '/Podfile',
-`pod 'Firebase', '~> 3.11.0'
+`pod 'Firebase', '~> 3.13.0'
 pod 'Firebase/Database'
 pod 'Firebase/Auth'
 
@@ -210,6 +221,9 @@ pod 'Firebase/Auth'
 
 # Uncomment if you want to enable Firebase Storage
 ` + (isSelected(result.storage) ? `` : `#`) + `pod 'Firebase/Storage'
+
+# Uncomment if you want to enable AdMob
+` + (isSelected(result.admob) ? `` : `#`) + `pod 'Firebase/AdMob'
 
 # Uncomment if you want to enable Facebook Authentication
 ` + (isSelected(result.facebook_auth) ? `` : `#`) + `pod 'FBSDKCoreKit'
@@ -251,25 +265,28 @@ repositories {
 
 dependencies {
     // make sure you have these versions by updating your local Android SDK's (Android Support repo and Google repo)
-    compile "com.google.firebase:firebase-core:10.0.+"
-    compile "com.google.firebase:firebase-database:10.0.+"
-    compile "com.google.firebase:firebase-auth:10.0.+"
+    compile "com.google.firebase:firebase-core:10.2.+"
+    compile "com.google.firebase:firebase-database:10.2.+"
+    compile "com.google.firebase:firebase-auth:10.2.+"
 
     // for reading google-services.json and configuration
-    def googlePlayServicesVersion = project.hasProperty('googlePlayServicesVersion') ? project.googlePlayServicesVersion : '10.0.+'
+    def googlePlayServicesVersion = project.hasProperty('googlePlayServicesVersion') ? project.googlePlayServicesVersion : '10.2.+'
     compile "com.google.android.gms:play-services-base:$googlePlayServicesVersion"
 
     // Uncomment if you want to use 'Remote Config'
-    ` + (isSelected(result.remote_config) ? `` : `//`) + ` compile "com.google.firebase:firebase-config:10.0.+"
+    ` + (isSelected(result.remote_config) ? `` : `//`) + ` compile "com.google.firebase:firebase-config:10.2.+"
 
     // Uncomment if you want to use 'Crash Reporting'
-    ` + (isSelected(result.crash_reporting) ? `` : `//`) + ` compile "com.google.firebase:firebase-crash:10.0.+"
+    ` + (isSelected(result.crash_reporting) ? `` : `//`) + ` compile "com.google.firebase:firebase-crash:10.2.+"
 
     // Uncomment if you want FCM (Firebase Cloud Messaging)
-    ` + (isSelected(result.messaging) ? `` : `//`) + ` compile "com.google.firebase:firebase-messaging:10.0.+"
+    ` + (isSelected(result.messaging) ? `` : `//`) + ` compile "com.google.firebase:firebase-messaging:10.2.+"
 
     // Uncomment if you want Google Cloud Storage
-    ` + (isSelected(result.storage) ? `` : `//`) + ` compile 'com.google.firebase:firebase-storage:10.0.+'
+    ` + (isSelected(result.storage) ? `` : `//`) + ` compile 'com.google.firebase:firebase-storage:10.2.+'
+
+    // Uncomment if you want AdMob
+    ` + (isSelected(result.admob) ? `` : `//`) + ` compile 'com.google.firebase:firebase-ads:10.2.+'
 
     // Uncomment if you need Facebook Authentication
     ` + (isSelected(result.facebook_auth) ? `` : `//`) + ` compile "com.facebook.android:facebook-android-sdk:4.+"

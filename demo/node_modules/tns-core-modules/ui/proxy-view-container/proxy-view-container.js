@@ -46,7 +46,9 @@ var ProxyViewContainer = (function (_super) {
     };
     ProxyViewContainer.prototype._eachLayoutView = function (callback) {
         this._eachChildView(function (cv) {
-            cv._eachLayoutView(callback);
+            if (cv._isVisible) {
+                cv._eachLayoutView(callback);
+            }
             return true;
         });
     };

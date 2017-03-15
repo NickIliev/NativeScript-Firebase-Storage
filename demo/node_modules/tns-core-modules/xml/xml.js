@@ -1,4 +1,3 @@
-"use strict";
 var easysax = require("js-libs/easysax");
 var ParserEventType = (function () {
     function ParserEventType() {

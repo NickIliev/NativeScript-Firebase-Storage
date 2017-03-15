@@ -1,20 +1,67 @@
 {
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NativeScript/nativescript-background-http.git"
+  "_args": [
+    [
+      {
+        "raw": "nativescript-background-http@^2.5.1",
+        "scope": null,
+        "escapedName": "nativescript-background-http",
+        "name": "nativescript-background-http",
+        "rawSpec": "^2.5.1",
+        "spec": ">=2.5.1 <3.0.0",
+        "type": "range"
+      },
+      "D:\\git-NickIliev\\NativeScript-Firebase-Storage\\demo"
+    ]
+  ],
+  "_from": "nativescript-background-http@>=2.5.1 <3.0.0",
+  "_id": "nativescript-background-http@2.5.1",
+  "_inCache": true,
+  "_location": "/nativescript-background-http",
+  "_nodeVersion": "6.9.2",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/nativescript-background-http-2.5.1.tgz_1486469648124_0.20214808359742165"
   },
-  "name": "nativescript-background-http",
-  "version": "2.4.1",
-  "nativescript": {
-    "platforms": {
-      "ios": "2.4.0",
-      "android": "2.4.1"
-    }
+  "_npmUser": {
+    "name": "iliev.nick",
+    "email": "iliev.nick007@gmail.com"
   },
-  "main": "background-http.js",
+  "_npmVersion": "3.10.9",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "nativescript-background-http@^2.5.1",
+    "scope": null,
+    "escapedName": "nativescript-background-http",
+    "name": "nativescript-background-http",
+    "rawSpec": "^2.5.1",
+    "spec": ">=2.5.1 <3.0.0",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/nativescript-background-http/-/nativescript-background-http-2.5.1.tgz",
+  "_shasum": "a5f716fd6d9030500b3dfacb71745afb907e3331",
+  "_shrinkwrap": null,
+  "_spec": "nativescript-background-http@^2.5.1",
+  "_where": "D:\\git-NickIliev\\NativeScript-Firebase-Storage\\demo",
+  "bugs": {
+    "url": "https://github.com/NativeScript/nativescript-background-http/issues"
+  },
+  "dependencies": {
+    "tns-core-modules": "^2.5.0"
+  },
+  "description": "A cross platform plugin for [the NativeScript framework](http://www.nativescript.org), that provides background upload for iOS and Android.",
+  "devDependencies": {
+    "tns-platform-declarations": "^2.5.0",
+    "typescript": "^2.0.3"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "a5f716fd6d9030500b3dfacb71745afb907e3331",
+    "tarball": "https://registry.npmjs.org/nativescript-background-http/-/nativescript-background-http-2.5.1.tgz"
+  },
   "homepage": "http://nativescript.github.io/nativescript-background-http/",
-  "url": "https://github.com/NativeScript/nativescript-background-http/issues",
-  "license": "Apache-2.0",
   "keywords": [
     "background",
     "http",
@@ -22,35 +69,13 @@
     "download",
     "NativeScript"
   ],
-  "dependencies": {
-    "tns-core-modules": "^2.4.3"
-  },
-  "devDependencies": {
-    "tns-platform-declarations": "^2.4.3",
-    "typescript": "^2.0.3"
-  },
-  "scripts": {
-    "tsc": "tsc",
-    "prepublish": "tsc"
-  },
-  "description": "A cross platform plugin for [the NativeScript framework](http://www.nativescript.org), that provides background upload for iOS and Android.",
-  "bugs": {
-    "url": "https://github.com/NativeScript/nativescript-background-http/issues"
-  },
-  "_id": "nativescript-background-http@2.4.1",
-  "_shasum": "bfc79e9ce0c61cc0f210e47d04ee47c916c03c8d",
-  "_from": "nativescript-background-http@latest",
-  "_npmVersion": "3.10.9",
-  "_nodeVersion": "6.9.2",
-  "_npmUser": {
-    "name": "iliev.nick",
-    "email": "iliev.nick007@gmail.com"
-  },
-  "dist": {
-    "shasum": "bfc79e9ce0c61cc0f210e47d04ee47c916c03c8d",
-    "tarball": "https://registry.npmjs.org/nativescript-background-http/-/nativescript-background-http-2.4.1.tgz"
-  },
+  "license": "Apache-2.0",
+  "main": "background-http",
   "maintainers": [
+    {
+      "name": "hdeshev",
+      "email": "hristo@deshev.com"
+    },
     {
       "name": "iliev.nick",
       "email": "iliev.nick007@gmail.com"
@@ -60,11 +85,23 @@
       "email": "panayot.cankov@telerik.com"
     }
   ],
-  "_npmOperationalInternal": {
-    "host": "packages-12-west.internal.npmjs.com",
-    "tmp": "tmp/nativescript-background-http-2.4.1.tgz_1482827079606_0.514153299620375"
+  "name": "nativescript-background-http",
+  "nativescript": {
+    "platforms": {
+      "ios": "2.5.0",
+      "android": "2.5.0"
+    }
   },
-  "directories": {},
-  "_resolved": "https://registry.npmjs.org/nativescript-background-http/-/nativescript-background-http-2.4.1.tgz",
-  "readme": "ERROR: No README data found!"
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NativeScript/nativescript-background-http.git"
+  },
+  "scripts": {
+    "prepublish": "tsc",
+    "tsc": "tsc"
+  },
+  "url": "https://github.com/NativeScript/nativescript-background-http/issues",
+  "version": "2.5.1"
 }
