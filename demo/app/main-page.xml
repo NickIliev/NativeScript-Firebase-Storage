@@ -1,13 +1,13 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo">
-    <ScrollView>
-        <StackLayout class="p-20">
-            <Button text="Upload file" tap="{{ uploadFile }}" class="btn btn-primary btn-active"/>
-            <Button text="Download File" tap="{{ downloadFile }}" class="btn btn-primary btn-active"/>
-            <Button text="Get Downloadn URL" tap="{{ getFownloadUrl }}" class="btn btn-primary btn-active"/>
-            <Button text="Delete File" tap="{{ deleteFile }}" class="btn btn-primary btn-active"/>
-            <GridLayout rows="*" columns="*" class="p-16" backgroundColor="gray">
-                <Label text="{{ message }}" class="p-16" color="white" textWrap="true" />
-            </GridLayout>
-        </StackLayout>
-    </ScrollView>
+
+    <StackLayout class="m-20">
+        <Button text="Upload file" tap="{{ uploadFile }}" class="btn btn-primary btn-active"/>
+        <Button text="Download File" tap="{{ downloadFile }}" class="btn btn-primary btn-active"/>
+        <Button text="Get Downloadn URL" tap="{{ getFownloadUrl }}" class="btn btn-primary btn-active"/>
+        <Button text="Delete File" tap="{{ deleteFile }}" class="btn btn-primary btn-active"/>
+        <GridLayout rows="*" columns="*">
+            <Label text="{{ message }}" class="text-center" textWrap="true" />
+        </GridLayout>
+    </StackLayout>
+
 </Page>

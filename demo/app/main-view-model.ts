@@ -1,6 +1,6 @@
-import { Observable } from 'data/observable';
-import * as firebase from "nativescript-plugin-firebase";
-import * as fs from "file-system";
+import { storage } from "nativescript-plugin-firebase";
+import { Observable } from 'tns-core-modules/data/observable';
+import { File, knownFolders } from "tns-core-modules/file-system";
 import { APPSPOT_BUCKET_URL } from "./shared/link";
 
 export class StorageModel extends Observable {
@@ -19,19 +19,18 @@ export class StorageModel extends Observable {
     }
 
     public uploadFile() {
-        var appPath = fs.knownFolders.currentApp().path;
-        console.log(appPath);
+        const appPath = knownFolders.currentApp().path;
         // determine the path to a file in the app/res folder
-        var logoPath = appPath + "/images/logo.png";
+        const logoPath = appPath + "/images/logo.png";
 
         // now upload the file with either of the options below:
-        firebase.uploadFile({
+        storage.uploadFile({
             // optional, can also be passed during init() as 'storageBucket' param so we can cache it (find it in the Firebase console)
             bucket: APPSPOT_BUCKET_URL,
             // the full path of the file in your Firebase storage (folders will be created)
             remoteFullPath: 'uploads/images/logo-uploaded.png',
             // option 1: a file-system module File object
-            localFile: fs.File.fromPath(logoPath),
+            localFile: File.fromPath(logoPath),
             // option 2: a full file path (ignored if 'localFile' is set)
             localFullPath: logoPath,
             // get notified of file upload progress
@@ -48,36 +47,35 @@ export class StorageModel extends Observable {
     }
 
     public downloadFile() {
-
-        var androidDownloadsPath = android.os.Environment.getExternalStoragePublicDirectory(
+        const androidDownloadsPath = android.os.Environment.getExternalStoragePublicDirectory(
             android.os.Environment.DIRECTORY_DOWNLOADS).toString();
 
-        var documents = fs.knownFolders.documents();
-        var logoPath = androidDownloadsPath + "/logo-downloaded.png";
+        const documents = knownFolders.documents();
+        const logoPath = androidDownloadsPath + "/logo-downloaded.png";
         console.log("logoPath: " + logoPath)
         // this will create or overwrite a local file in the app's documents folder
-        var localLogoFile = documents.getFile("logo-downloaded.png");
+        let localLogoFile = documents.getFile("logo-downloaded.png");
 
         // now download the file with either of the options below:
-        firebase.downloadFile({
+        storage.downloadFile({
             // optional, can also be passed during init() as 'storageBucket' param so we can cache it
             bucket: APPSPOT_BUCKET_URL,
             // the full path of an existing file in your Firebase storage
             remoteFullPath: 'uploads/images/logo-uploaded.png',
             // option 1: a file-system module File object
-            localFile: fs.File.fromPath(logoPath),
+            localFile: File.fromPath(logoPath),
             // option 2: a full file path (ignored if 'localFile' is set)
             localFullPath: logoPath
         }).then(uploadedFile => {
             console.log("File downloaded to the requested location");
-            this.message = "File downloaded in " + logoPath;
+            this.message = logoPath;
         }).catch(err => {
             console.log("File download error: " + err);
         })
     }
 
     public getFownloadUrl() {
-        firebase.getDownloadUrl({
+        storage.getDownloadUrl({
             // optional, can also be passed during init() as 'storageBucket' param so we can cache it
             bucket: APPSPOT_BUCKET_URL,
             // the full path of an existing file in your Firebase storage
@@ -91,14 +89,14 @@ export class StorageModel extends Observable {
     }
 
     public deleteFile() {
-        firebase.deleteFile({
+        storage.deleteFile({
             // optional, can also be passed during init() as 'storageBucket' param so we can cache it
             bucket: APPSPOT_BUCKET_URL,
             // the full path of an existing file in your Firebase storage
             remoteFullPath: 'uploads/images/logo-uploaded.png'
         }).then(() => {
-            console.log("File deleted.");
-            this.message = "File deleted.";
+            console.log("File deleted from Firebase Storage.");
+            this.message = "File deleted from Firebase Storage.";
         }).catch(error => {
             console.log("File deletion Error: " + error);
         })

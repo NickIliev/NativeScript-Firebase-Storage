@@ -1,6 +1,7 @@
-rootProject.name = "demo"
-include "asbg"
-project(":asbg").projectDir = file("build-tools/android-static-binding-generator")
+rootProject.name = "firebasestoragedemo"
+include ':app'//, ':runtime', ':runtime-binding-generator'
 
-include "runtime"
-project(":runtime").projectDir = file("build-tools/runtime-modules/runtime")
+//project(':runtime').projectDir = new File("${System.env.ANDROID_RUNTIME_HOME}/test-app/runtime")
+//project(':runtime-binding-generator').projectDir = new File("${System.env.ANDROID_RUNTIME_HOME}/test-app/runtime-binding-generator")
+
+file("google-services.json").renameTo(file("./app/google-services.json"))

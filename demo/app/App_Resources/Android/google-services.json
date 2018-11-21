@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "931855308105",
+    "firebase_url": "https://firebae-storage-demo.firebaseio.com",
+    "project_id": "firebae-storage-demo",
+    "storage_bucket": "firebae-storage-demo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:931855308105:android:ae6afb81bdc5dd7e",
+        "android_client_info": {
+          "package_name": "niliev.nativescript.firebasestoragedemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "931855308105-01d0fg1dkmnstgkvvm9940o8pqo060n7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBURcHMq5FhPzpXpLbEqFJQnrob4o3YVAU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

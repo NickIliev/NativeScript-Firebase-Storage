@@ -1,7 +1,25 @@
 {
-	"time": "Wed Mar 15 2017 11:46:45 GMT+0200 (FLE Standard Time)",
-	"bundle": false,
+	"time": "Wed Nov 21 2018 16:59:49 GMT+0200 (EET)",
+	"nativePlatformStatus": "3",
+	"bundle": true,
 	"release": false,
-	"changesRequireBuild": true,
-	"changesRequireBuildTime": "Wed Mar 15 2017 11:46:45 GMT+0200 (FLE Standard Time)"
+	"changesRequireBuild": false,
+	"projectFileHash": "8ddd855515927958efa95880c12b21dca2a95fb3caddd94b28cac052ed9efdb1",
+	"changesRequireBuildTime": "Wed Nov 21 2018 16:54:38 GMT+0200 (EET)",
+	"appFilesHashes": {
+		"/Users/niliev/Desktop/repositories/NativeScript-Firebase-Storage/demo/app/README.md": "fc4ef74fe23e33ad189d966d9890d85bfe4293f9",
+		"/Users/niliev/Desktop/repositories/NativeScript-Firebase-Storage/demo/app/app-root.xml": "900a386cb2d8abc9573413eb3aff45448dcd3608",
+		"/Users/niliev/Desktop/repositories/NativeScript-Firebase-Storage/demo/app/app.css": "66bc3680052e672d5f97c959abbf46ce180df05f",
+		"/Users/niliev/Desktop/repositories/NativeScript-Firebase-Storage/demo/app/app.js": "497d57a21147bbd327fdcbcfcd3e043a6a3ff36c",
+		"/Users/niliev/Desktop/repositories/NativeScript-Firebase-Storage/demo/app/app.ts": "8baf64cbe5a6458a49905d6389e29bf151ef065f",
+		"/Users/niliev/Desktop/repositories/NativeScript-Firebase-Storage/demo/app/images/logo.png": "9d538193d5282e1e7d30ea066b9d23f670ec7359",
+		"/Users/niliev/Desktop/repositories/NativeScript-Firebase-Storage/demo/app/main-page.js": "d1c4bf8817303e777e609c80ce4b08eb84697117",
+		"/Users/niliev/Desktop/repositories/NativeScript-Firebase-Storage/demo/app/main-page.ts": "d8d4342013681ba360699f1ce50abfe513309d03",
+		"/Users/niliev/Desktop/repositories/NativeScript-Firebase-Storage/demo/app/main-page.xml": "6c3f9e0d0091dd05a04089ef7c95dffd479272db",
+		"/Users/niliev/Desktop/repositories/NativeScript-Firebase-Storage/demo/app/main-view-model.js": "a2a676214fb257ff041cda7232aa59a530343b1a",
+		"/Users/niliev/Desktop/repositories/NativeScript-Firebase-Storage/demo/app/main-view-model.ts": "2442199ad3eb440e4f59e940ee33ef51f46bacf2",
+		"/Users/niliev/Desktop/repositories/NativeScript-Firebase-Storage/demo/app/package.json": "565971166b8ab918a5c8a59e682340a35032c68e",
+		"/Users/niliev/Desktop/repositories/NativeScript-Firebase-Storage/demo/app/shared/link.js": "fccd090f52ce2cd203e86d9ad4ac29a6d9804909",
+		"/Users/niliev/Desktop/repositories/NativeScript-Firebase-Storage/demo/app/shared/link.ts": "033daaa61d9f7c28d6e450752f9bb0b47b34a227"
+	}
 }
