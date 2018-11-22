@@ -79,7 +79,7 @@ export class StorageModel extends Observable {
         })
     }
 
-    getFownloadUrl() {
+    getDownloadUrl() {
         storage.getDownloadUrl({
             // optional, can also be passed during init() as 'storageBucket' param so we can cache it
             bucket: APPSPOT_BUCKET_URL,
