@@ -22,9 +22,9 @@ POC nativeScript application using `nativescript-plugin-firebase` with enabled *
     tns platform add ios
     ```
 
-4. Paste the `google-serives.json` in `platforms/android`
+4. Paste the `google-serives.json` in `App_Resources/Android`
 
-5. Paste the `GoogleServices-info.plist` in `platforms/ios`
+5. Paste the `GoogleServices-info.plist` in `platApp_Resourcesforms/iOS`
 
 6. In your `app.ts` intialize Firebase providing the appspot url as your storageBucket
     ```TypeScript
