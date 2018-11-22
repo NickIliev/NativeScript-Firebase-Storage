@@ -2,11 +2,12 @@ import { requestPermission } from "nativescript-permissions";
 import { EventData } from 'tns-core-modules/data/observable';
 import { Page } from 'tns-core-modules/ui/page';
 import { StorageModel } from './main-view-model';
+import { fromUrl, ImageSource } from "image-source";
 
 export function navigatingTo(args: EventData) {
     let page = <Page>args.object;
-
-    page.bindingContext = new StorageModel();
+    let vm = new StorageModel();
+    page.bindingContext = vm;
 
     requestPermission([
         "android.permission.INTERNET",

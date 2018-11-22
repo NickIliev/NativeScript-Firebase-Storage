@@ -8,6 +8,8 @@
         <GridLayout rows="*" columns="*">
             <Label text="{{ message }}" class="text-center" textWrap="true" />
         </GridLayout>
+        <Image src="{{ image }}" stretch="none" />
+        
     </StackLayout>
 
 </Page>

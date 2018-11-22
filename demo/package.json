@@ -7,6 +7,9 @@
     "id": "niliev.nativescript.firebasestoragedemo",
     "tns-android": {
       "version": "5.0.0"
+    },
+    "tns-ios": {
+      "version": "5.0.0"
     }
   },
   "dependencies": {
