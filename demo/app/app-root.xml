@@ -1,2 +1,2 @@
-<Frame defaultPage="main-page">
+<Frame id="my-frame" defaultPage="main-page">
 </Frame>

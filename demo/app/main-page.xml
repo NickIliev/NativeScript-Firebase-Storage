@@ -1,6 +1,9 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo">
 
     <StackLayout class="m-20">
+        <Button text="Nav to sub-page" tap="nav" backgroundColor="blue" height="80"/>
+    
+
         <Button text="Upload file" tap="{{ uploadFile }}" class="btn btn-primary btn-active"/>
         <Button text="Download File" tap="{{ downloadFile }}" class="btn btn-primary btn-active"/>
         <Button text="Get Downloadn URL" tap="{{ getDownloadUrl }}" class="btn btn-primary btn-active"/>
